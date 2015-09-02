@@ -11,13 +11,11 @@ from controllers.admin import export_processor
 user_datastore = SQLAlchemyUserDatastore(db, User, Role)
 security = Security(app=None, datastore=user_datastore)
 
-security_page = Blueprint('security_page ', __name__,
-                          template_folder='templates')
-
-# Views
-@security_page.route('/')
-def home():
-    return render_template('index.html')
+security_page = Blueprint(
+    'security_page ',
+    __name__,
+    template_folder='templates'
+)
 
 
 def register(app):
@@ -30,7 +28,6 @@ def register(app):
 
     @app.context_processor
     def security_context_processor():
-        print(export_processor())
         return export_processor()
 
     app.register_blueprint(security_page)

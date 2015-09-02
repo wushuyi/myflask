@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+{{ current_user.first_name }}
+<div>
+    <ul>
+        {% for post in post_list %}
+            <li><a href="{{ url_for('.posts', query_path= post.uri_path) }}">{{ post.title }}</a></li>
+        {% endfor %}
+    </ul>
+</div>
+</body>
+</html>

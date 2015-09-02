@@ -8,6 +8,7 @@ from flask_admin.contrib import rediscli
 from wtforms.validators import required
 from flask_admin.helpers import get_form_data
 from forms.user_from import MyPasswordField
+from wtforms.fields import TextAreaField, HiddenField
 
 
 class ViewAuthMixin(object):
@@ -157,6 +158,31 @@ class BlogPostModelView(MyModelView):
             'validators': [required(message='必须填写!')]
         },
     }
+
+    create_template = 'admin/create_post.html'
+    edit_template = 'admin/edit_post.html'
+
+    def create_form(self, obj=None):
+        Form = self.scaffold_form()
+
+        class MyForm(Form):
+            markdown = TextAreaField('Markdown')
+            content = HiddenField('内容')
+
+        return MyForm(get_form_data(), obj=obj)
+
+    def edit_form(self, obj=None):
+        Form = self.scaffold_form()
+
+        class MyForm(Form):
+            markdown = TextAreaField('Markdown')
+            content = HiddenField('内容')
+
+        return MyForm(get_form_data(), obj=obj)
+
+        # @expose('/new/', methods=('GET', 'POST'))
+        # def create_view(self):
+        #     return self.render('admin/add_post.html')
 
 
 class BlogClassifyModelView(MyModelView):

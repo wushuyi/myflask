@@ -1,0 +1,30 @@
+{% extends 'admin/master.html' %}
+
+{% block head_css %}
+    {{ super() }}
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='assets/libs/bootstrap-markdown/2.9.0/css/bootstrap-markdown.min.css') }}"/>
+    <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/github-markdown.css') }}"/>
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='assets/libs/highlight.js/8.7/styles/solarized_dark.min.css') }}"/>
+    <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/style.css') }}"/>
+{% endblock %}
+
+{% block body %}
+    {{ super() }}
+    <div class="row-full">
+        <form>
+            <input class="form-control" name="title" type="text" placeholder="Title?"/>
+            <hr/>
+            <textarea class="form-control" id="editor" name="content" rows="30"></textarea>
+        </form>
+    </div>
+{% endblock body %}
+
+{% block tail_js %}
+    {{ super() }}
+    <script src="{{ url_for('static', filename='assets/libs/marked/0.3.2/marked.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/libs/highlight.js/8.7/highlight.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/libs/bootstrap-markdown/2.9.0/js/bootstrap-markdown.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/js/post_editor.js') }}"></script>
+{% endblock %}

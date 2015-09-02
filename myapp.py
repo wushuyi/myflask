@@ -18,10 +18,12 @@ def register_all():
     import controllers.security
     import controllers.admin
     import controllers.babel
+    import controllers.blog
 
     controllers.security.register(app)
     controllers.admin.register(app)
     controllers.babel.register(app)
+    controllers.blog.register(app)
 
 
 if __name__ == '__main__':

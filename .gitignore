@@ -45,4 +45,5 @@ Temporary Items
 .idea
 temp
 uploads/*
+static/image
 

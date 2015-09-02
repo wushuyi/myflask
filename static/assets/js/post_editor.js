@@ -82,8 +82,14 @@ $editor.markdown({
 var markdown_editor = $editor.data('markdown');
 $('.submit-row input[type="submit"]').on('click', function (evt) {
     evt.preventDefault();
+    var $self = $(this);
+    var $form = $self.closest('form');
     var res = markdown_editor.getContent();
     var html = markdownParser(res);
     $('#content').val(html);
-    $(this).closest('form').submit();
+    var this_name = $self.prop('name');
+    if (this_name) {
+        $form.append($('<input type="hidden" name="' + this_name + '">'))
+    }
+    $form.submit();
 });

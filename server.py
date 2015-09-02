@@ -7,6 +7,8 @@ monkey.patch_all()
 from gevent.pywsgi import WSGIServer
 from myapp import app, register_all
 
+app.config['DEBUG'] = False
+
 register_all()
 
 http_server = WSGIServer(('', 5000), app)

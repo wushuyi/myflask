@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 __author__ = 'wushuyi'
 from flask.ext.script import Manager
-import config
 from myapp import app
 
 manager = Manager(app)
@@ -24,6 +23,7 @@ def init_db():
     from model.security import User, Role
     from controllers.security import user_datastore, security
 
+    app.config['SQLALCHEMY_ECHO'] = True
     db.init_app(app)
     security.init_app(app)
     db.drop_all()
@@ -64,6 +64,17 @@ def init_db():
             roles=[user_role, ]
         )
     db.session.commit()
+
+
+@manager.command
+def init_blog_db():
+    from model.create_db import db
+    import model.blog
+
+    app.config['SQLALCHEMY_ECHO'] = True
+    db.init_app(app)
+    db.drop_all()
+    db.create_all()
 
 
 if __name__ == '__main__':

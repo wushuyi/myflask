@@ -16,6 +16,8 @@ class BlogPost(db.Model):
     title = db.Column(db.String(255))
     content = db.Column(db.Text())
     markdown = db.Column(db.Text())
+    pre_content = db.Column(db.Text())
+    pre_markdown = db.Column(db.Text())
     classify = db.relationship(
         'BlogClassify', secondary=posts_classifys,
         backref=db.backref('blogposts', lazy='dynamic')

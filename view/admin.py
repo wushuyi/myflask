@@ -133,19 +133,25 @@ class BlogPostModelView(MyModelView):
         'id': 'ID',
         'uri_path': '路径',
         'title': '标题',
-        'content': '内容',
-        'markdown': 'Markdown',
+        'content': 'html',
+        'markdown': '内容',
+        'pre_content': '预览html',
+        'pre_markdown': '预览内容',
         'classify.name': '归类',
         'classify': '归类',
     }
     form_columns = (
         'title',
+        'pre_markdown',
         'markdown',
         'classify',
         'uri_path',
     )
     form_args = {
         'title': {
+            'validators': [required(message='必须填写!')]
+        },
+        'pre_markdown': {
             'validators': [required(message='必须填写!')]
         },
         'markdown': {
@@ -166,7 +172,8 @@ class BlogPostModelView(MyModelView):
         Form = self.scaffold_form()
 
         class MyForm(Form):
-            markdown = TextAreaField('Markdown')
+            # markdown = TextAreaField('Markdown')
+            pre_content = HiddenField('预览内容')
             content = HiddenField('内容')
 
         return MyForm(get_form_data(), obj=obj)
@@ -175,7 +182,8 @@ class BlogPostModelView(MyModelView):
         Form = self.scaffold_form()
 
         class MyForm(Form):
-            markdown = TextAreaField('Markdown')
+            # markdown = TextAreaField('Markdown')
+            pre_content = HiddenField('预览内容')
             content = HiddenField('内容')
 
         return MyForm(get_form_data(), obj=obj)

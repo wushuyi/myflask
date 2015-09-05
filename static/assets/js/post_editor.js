@@ -57,6 +57,18 @@ var markdownParser = function markdownParser(val) {
 };
 
 var $editor = $('#markdown');
+var $pre_editor = $('#pre_markdown');
+$pre_editor.markdown({
+    language: 'zh',
+    resize: 'both',
+    parser: markdownParser,
+    onPreview: function (self) {
+        setTimeout(function () {
+            var $preview = self.$editor.find('div[data-provider="markdown-preview"]');
+            $preview.addClass('markdown-body');
+        }, 0);
+    },
+});
 $editor.markdown({
     //savable: true,
     language: 'zh',
@@ -80,13 +92,17 @@ $editor.markdown({
     //}
 });
 var markdown_editor = $editor.data('markdown');
+var pre_markdown_editor = $pre_editor.data('markdown');
 $('.submit-row input[type="submit"]').on('click', function (evt) {
     evt.preventDefault();
     var $self = $(this);
     var $form = $self.closest('form');
+    var pre_res = pre_markdown_editor.getContent();
+    var pre_html = markdownParser(pre_res);
     var res = markdown_editor.getContent();
     var html = markdownParser(res);
     $('#content').val(html);
+    $('#pre_content').val(pre_html);
     var this_name = $self.prop('name');
     if (this_name) {
         $form.append($('<input type="hidden" name="' + this_name + '">'))

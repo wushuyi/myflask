@@ -1,0 +1,70 @@
+{% extends 'blog/base.html' %}
+{% import 'blog/libs.html' as libs with context %}
+
+{% set temp = blog_public() %}
+
+{% block title %}
+    {{ temp.title }}
+{% endblock %}
+
+{% block site_title %}
+    {{ temp.title }}
+{% endblock %}
+
+{% block head_css %}
+    {{ super() }}
+    {{ libs.css( url_for('static', filename='assets/css/blog/blog-home.css') ) }}
+{% endblock %}
+
+{% block nav %}
+    <li class="active">
+        <a href="/">Home</a>
+    </li>
+{% endblock %}
+
+{% block search_word %}{{ info.word }}{% endblock %}
+
+{% block centent %}
+    <ol class="breadcrumb">
+        <li><a href="/">Home</a></li>
+        <li class="active">Search</li>
+    </ol>
+
+    <!-- Blog Post -->
+    {% if info['not_find'] %}
+        <h2>找不到相关内容!</h2>
+    {% endif %}
+    {% for post in post_list %}
+        <h2>
+            <a href="{{ url_for('.posts', query_path= post.uri_path) }}">{{ post.title }}</a>
+        </h2>
+
+        <p class="lead">
+            {% for classify in  post.classify %}
+                <a class="label label-info"
+                   href="{{ url_for('.tag', query_classify= classify.uri_path) }}">{{ classify.name }}</a>
+            {% endfor %}
+        </p>
+
+        {# <p><span class="glyphicon glyphicon-time"></span> Posted on August 28, 2013 at 10:00 PM</p>#}
+        <hr>
+        {{ post.pre_content | safe }}
+        <hr>
+        <a class="btn btn-primary" href="{{ url_for('.posts', query_path= post.uri_path) }}">阅读文章 <span
+                class="glyphicon glyphicon-chevron-right"></span></a>
+    {% endfor %}
+
+    <!-- Pager -->
+    <ul class="pager">
+        {% if page_control['previous'] %}
+            <li class="previous">
+                <a href="{{ page_control['previous'] }}">&larr; 上一页</a>
+            </li>
+        {% endif %}
+        {% if page_control['next'] %}
+            <li class="next">
+                <a href="{{ page_control['next'] }}">下一页 &rarr;</a>
+            </li>
+        {% endif %}
+    </ul>
+{% endblock %}

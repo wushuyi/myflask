@@ -89,7 +89,6 @@
     {% endblock %}
 
     {# Page Content #}
-    {% set classify_list = blog_get_classify_list() %}
     <div class="container">
         {% block container_block %}
             <div class="row">
@@ -130,6 +129,7 @@
                             <div class="row">
                                 <div class="col-lg-6">
                                     <ul class="list-unstyled">
+                                        {% set classify_list = blog_get_classify_list() %}
                                         {% for classify in classify_list %}
                                             <li>
                                                 <a href="{{ url_for('.tag', query_classify= classify.uri_path) }}">{{ classify.name }}</a>

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 __author__ = 'wushuyi'
-from flask import current_app, abort
+from flask import current_app, abort, request
 from flask import Blueprint, render_template, redirect, url_for
 from model import db
 from model.blog import BlogPost, BlogClassify
@@ -48,7 +48,7 @@ def post_list(**kwargs):
     return render_template('blog/index.html', post_list=post_list, page_control=page_control)
 
 
-def tag(**kwargs):
+def tag_list(**kwargs):
     query_classify = kwargs.pop("query_classify", None)
     app = current_app._get_current_object()
     post_max = app.config['SIET_LIST_SIZE']
@@ -77,3 +77,44 @@ def tag(**kwargs):
 def posts(query_path):
     post = BlogPost.query.filter_by(uri_path=query_path).first_or_404()
     return render_template('blog/posts.html', post=post)
+
+
+def search(**kwargs):
+    word = request.args['word']
+    print(word)
+    page = kwargs.pop("page", 1)
+    print(page)
+    app = current_app._get_current_object()
+    post_max = app.config['SIET_LIST_SIZE']
+    post_list_where = BlogPost.query.order_by(
+        BlogPost.id.desc()
+    ).filter(
+        BlogPost.markdown.contains(word)
+    )
+    post_list = post_list_where[((page - 1) * post_max):(page * post_max)]
+
+    post_count = post_list_where.count()
+
+    post_page = math.ceil(post_count / post_max)
+    page_control = {
+        'previous': None,
+        'next': None,
+    }
+
+    not_find = post_count == 0
+    print(not_find)
+
+    if page != 1:
+        page_control['previous'] = url_for('.search_list', page=(page - 1)) + '?word=' + word
+        if page == 2:
+            page_control['previous'] = url_for('.search') + '?word=' + word
+
+    if page != post_page and not not_find:
+        page_control['next'] = url_for('.search_list', page=(page + 1)) + '?word=' + word
+
+    info = {
+        'word': word,
+        'not_find': not_find
+    }
+
+    return render_template('blog/search.html', post_list=post_list, page_control=page_control, info=info)

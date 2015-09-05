@@ -20,10 +20,13 @@ blog_page.add_url_rule('/favicon.ico', endpoint='page', view_func=blog.favicon)
 blog_page.add_url_rule('/list/<int:page>', endpoint='post_list', view_func=blog.post_list)
 blog_page.add_url_rule('/', endpoint='home', view_func=blog.post_list)
 
-blog_page.add_url_rule('/tag/<string:query_classify>/<int:page>', endpoint='tag_list', view_func=blog.tag)
-blog_page.add_url_rule('/tag/<string:query_classify>', endpoint='tag', view_func=blog.tag)
+blog_page.add_url_rule('/tag/<string:query_classify>/<int:page>', endpoint='tag_list', view_func=blog.tag_list)
+blog_page.add_url_rule('/tag/<string:query_classify>', endpoint='tag', view_func=blog.tag_list)
 
 blog_page.add_url_rule('/article/<string:query_path>', endpoint='posts', view_func=blog.posts)
+
+blog_page.add_url_rule('/search', endpoint='search', view_func=blog.search)
+blog_page.add_url_rule('/search/<int:page>', endpoint='search_list', view_func=blog.search)
 
 
 def register(app):

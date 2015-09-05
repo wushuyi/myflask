@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
 __author__ = 'wushuyi'
-from flask import current_app, g
-import os
-from flask import Blueprint, render_template, redirect, url_for, send_from_directory
+from flask import current_app, abort
+from flask import Blueprint, render_template, redirect, url_for
 from model import db
 from model.blog import BlogPost, BlogClassify
+import math
+import view.blog as blog
 
 blog_page = Blueprint(
     'blog_page ',
@@ -12,45 +13,17 @@ blog_page = Blueprint(
     template_folder='templates'
 )
 
+blog_page.add_app_template_global(blog.get_public, name='blog_public')
+blog_page.add_app_template_global(blog.get_classify_list, name='blog_get_classify_list')
 
-def public():
-    app = current_app._get_current_object()
-    return {
-        'title': app.config['SIET_TITLE'],
+blog_page.add_url_rule('/favicon.ico', endpoint='page', view_func=blog.favicon)
+blog_page.add_url_rule('/list/<int:page>', endpoint='post_list', view_func=blog.post_list)
+blog_page.add_url_rule('/', endpoint='home', view_func=blog.post_list)
 
-    }
+blog_page.add_url_rule('/tag/<string:query_classify>/<int:page>', endpoint='tag_list', view_func=blog.tag)
+blog_page.add_url_rule('/tag/<string:query_classify>', endpoint='tag', view_func=blog.tag)
 
-
-def get_classify_list():
-    classify_list = BlogClassify.query.all()
-    return classify_list
-
-
-blog_page.add_app_template_global(public, name='blog_public')
-blog_page.add_app_template_global(get_classify_list, name='blog_get_classify_list')
-
-
-@blog_page.route('/favicon.ico')
-def favicon():
-    return redirect(url_for('static', filename='favicon.ico'), code=301)
-
-
-@blog_page.route('/')
-def home():
-    # print(g.get('test', 'ok'))
-    post_list = BlogPost.query.limit(10).all()
-    return render_template('blog/index.html', post_list=post_list)
-
-
-@blog_page.route('/posts/<query_path>')
-def posts(query_path):
-    post = BlogPost.query.filter_by(uri_path=query_path).first_or_404()
-    return render_template('blog/posts.html', post=post)
-
-
-@blog_page.route('/tag/<query_classify>')
-def tag(query_classify):
-    return query_classify
+blog_page.add_url_rule('/article/<string:query_path>', endpoint='posts', view_func=blog.posts)
 
 
 def register(app):

@@ -2,8 +2,9 @@
 DEBUG = True
 SECRET_KEY = 'super-secret'
 
-#info
+# info
 SIET_TITLE = '测试'
+SIET_LIST_SIZE = 2
 
 # db
 SQLALCHEMY_DATABASE_URI = 'postgresql://dbuser:3.1415926@localhost/testdb'

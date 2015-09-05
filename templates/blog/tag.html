@@ -23,14 +23,9 @@
 {% endblock %}
 
 {% block centent %}
-    <h1 class="page-header">
-        {{ test }}
-        测试
-        <small>一个测试</small>
-    </h1>
-
     <ol class="breadcrumb">
-        <li class="active">首页</li>
+        <li><a href="/">Home</a></li>
+        <li class="active">{{ classify.name }}</li>
     </ol>
 
     <!-- Blog Post -->

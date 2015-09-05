@@ -23,6 +23,10 @@
 {% endblock %}
 
 {% block centent %}
+    <ol class="breadcrumb">
+        <li><a href="/">首页</a></li>
+        <li class="active">文章</li>
+    </ol>
     <!-- Blog Post -->
 
     <!-- Title -->
@@ -31,7 +35,7 @@
     <!-- Author -->
     <p class="lead">
         {% for classify in  post.classify %}
-            <a class="btn btn-info btn-sm"
+            <a class="label label-info"
                href="{{ url_for('.tag', query_classify= classify.uri_path) }}">{{ classify.name }}</a>
         {% endfor %}
     </p>

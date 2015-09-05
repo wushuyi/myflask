@@ -37,8 +37,6 @@ marked.setOptions({
     highlight: function (code, type) {
         if (type) {
             return hljs.highlight(type, code).value;
-        } else {
-            return hljs.highlightAuto(code).value;
         }
     }
 });
@@ -50,8 +48,11 @@ var markdownParser = function markdownParser(val) {
     });
     $html.find('pre').each(function (_, pre) {
         var $pre = $(pre);
-        var lang = $pre.children('code').attr('class').split('-')[1];
-        $pre.addClass('hljs').addClass(lang);
+        var lang = $pre.children('code').attr('class');
+        if(lang){
+            lang = lang.split('-')[1];
+            $pre.addClass('hljs').addClass(lang);
+        }
     });
     return $html.html();
 };

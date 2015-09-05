@@ -1,22 +1,113 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>{{ post.title }}</title>
-    <link rel="stylesheet"
-          href="{{ url_for('static', filename='assets/libs/twitter-bootstrap/3.3.5/css/bootstrap.css') }}"/>
-    <link rel="stylesheet"
-          href="{{ url_for('static', filename='assets/libs/twitter-bootstrap/3.3.5/css/bootstrap-theme.css') }}"/>
-    <link rel="stylesheet"
-          href="{{ url_for('static', filename='assets/libs/bootstrap-markdown/2.9.0/css/bootstrap-markdown.min.css') }}"/>
-    <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/github-markdown.css') }}"/>
-    <link rel="stylesheet"
-          href="{{ url_for('static', filename='assets/libs/highlight.js/8.7/styles/solarized_dark.min.css') }}"/>
-    <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/style.css') }}"/>
-</head>
-<body>
-<div class="container markdown-body">
+{% extends 'blog/base.html' %}
+{% import 'blog/libs.html' as libs with context %}
+
+{% set temp = blog_public() %}
+
+{% block title %}
+    {{ temp.title }}
+{% endblock %}
+
+{% block site_title %}
+    {{ temp.title }}
+{% endblock %}
+
+{% block head_css %}
+    {{ super() }}
+    {{ libs.css( url_for('static', filename='assets/css/blog/blog-post.css') ) }}
+{% endblock %}
+
+{% block nav %}
+    <li>
+        <a href="/">Home</a>
+    </li>
+{% endblock %}
+
+{% block centent %}
+    <!-- Blog Post -->
+
+    <!-- Title -->
+    <h1>{{ post.title }}</h1>
+
+    <!-- Author -->
+    <p class="lead">
+        {% for classify in  post.classify %}
+            <a class="btn btn-info btn-sm"
+               href="{{ url_for('.tag', query_classify= classify.uri_path) }}">{{ classify.name }}</a>
+        {% endfor %}
+    </p>
+
+    <!-- Date/Time -->
+    {#            <p><span class="glyphicon glyphicon-time"></span> Posted on August 24, 2013 at 9:00 PM</p>#}
+
+    <hr>
+
     {{ post.content | safe }}
-</div>
-</body>
-</html>
+    <hr>
+{#    {% block comments %}#}
+{#        <!-- Comments Form -->#}
+{#        <div class="well">#}
+{#            <h4>Leave a Comment:</h4>#}
+{##}
+{#            <form role="form">#}
+{#                <div class="form-group">#}
+{#                    <textarea class="form-control" rows="3"></textarea>#}
+{#                </div>#}
+{#                <button type="submit" class="btn btn-primary">Submit</button>#}
+{#            </form>#}
+{#        </div>#}
+{##}
+{#        <hr>#}
+{##}
+{#        <!-- Posted Comments -->#}
+{##}
+{#        <!-- Comment -->#}
+{#        <div class="media">#}
+{#            <a class="pull-left" href="#">#}
+{#                <img class="media-object" src="http://placehold.it/64x64" alt="">#}
+{#            </a>#}
+{##}
+{#            <div class="media-body">#}
+{#                <h4 class="media-heading">Start Bootstrap#}
+{#                    <small>August 25, 2014 at 9:30 PM</small>#}
+{#                </h4>#}
+{#                Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo.#}
+{#                Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi#}
+{#                vulputate fringilla. Donec lacinia congue felis in faucibus.#}
+{#            </div>#}
+{#        </div>#}
+{##}
+{#        <!-- Comment -->#}
+{#        <div class="media">#}
+{#            <a class="pull-left" href="#">#}
+{#                <img class="media-object" src="http://placehold.it/64x64" alt="">#}
+{#            </a>#}
+{##}
+{#            <div class="media-body">#}
+{#                <h4 class="media-heading">Start Bootstrap#}
+{#                    <small>August 25, 2014 at 9:30 PM</small>#}
+{#                </h4>#}
+{#                Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo.#}
+{#                Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi#}
+{#                vulputate fringilla. Donec lacinia congue felis in faucibus.#}
+{#                <!-- Nested Comment -->#}
+{#                <div class="media">#}
+{#                    <a class="pull-left" href="#">#}
+{#                        <img class="media-object" src="http://placehold.it/64x64" alt="">#}
+{#                    </a>#}
+{##}
+{#                    <div class="media-body">#}
+{#                        <h4 class="media-heading">Nested Start Bootstrap#}
+{#                            <small>August 25, 2014 at 9:30 PM</small>#}
+{#                        </h4>#}
+{#                        Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin#}
+{#                        commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce#}
+{#                        condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.#}
+{#                    </div>#}
+{#                </div>#}
+{#                <!-- End Nested Comment -->#}
+{#            </div>#}
+{#        </div>#}
+{#    {% endblock %}#}
+{% endblock %}
+
+

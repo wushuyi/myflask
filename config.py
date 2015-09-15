@@ -3,7 +3,7 @@ DEBUG = True
 SECRET_KEY = 'super-secret'
 
 # info
-SIET_TITLE = '测试'
+SIET_TITLE = '01人生'
 SIET_LIST_SIZE = 2
 
 # db

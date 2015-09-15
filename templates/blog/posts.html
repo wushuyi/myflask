@@ -13,6 +13,9 @@
 
 {% block head_css %}
     {{ super() }}
+    <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/github-markdown.css') }}"/>
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='assets/libs/highlight.js/8.7/styles/solarized_dark.min.css') }}"/>
     {{ libs.css( url_for('static', filename='assets/css/blog/blog-post.css') ) }}
 {% endblock %}
 
@@ -44,9 +47,8 @@
     {#            <p><span class="glyphicon glyphicon-time"></span> Posted on August 24, 2013 at 9:00 PM</p>#}
 
     <hr>
+    <div class="markdown-body">{{ post.content | safe }}</div>
 
-    {{ post.content | safe }}
-    <hr>
 {#    {% block comments %}#}
 {#        <!-- Comments Form -->#}
 {#        <div class="well">#}

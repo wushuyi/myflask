@@ -13,6 +13,9 @@
 
 {% block head_css %}
     {{ super() }}
+    <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/github-markdown.css') }}"/>
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='assets/libs/highlight.js/8.7/styles/solarized_dark.min.css') }}"/>
     {{ libs.css( url_for('static', filename='assets/css/blog/blog-home.css') ) }}
 {% endblock %}
 
@@ -48,7 +51,9 @@
 
         {# <p><span class="glyphicon glyphicon-time"></span> Posted on August 28, 2013 at 10:00 PM</p>#}
         <hr>
-        {{ post.pre_content | safe }}
+        <div class="markdown-body">
+            {{ post.content | safe }}
+        </div>
         <hr>
         <a class="btn btn-primary" href="{{ url_for('.posts', query_path= post.uri_path) }}">阅读文章 <span
                 class="glyphicon glyphicon-chevron-right"></span></a>

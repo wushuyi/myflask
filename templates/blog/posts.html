@@ -47,7 +47,9 @@
     {#            <p><span class="glyphicon glyphicon-time"></span> Posted on August 24, 2013 at 9:00 PM</p>#}
 
     <hr>
-    <div class="markdown-body">{{ post.content | safe }}</div>
+    <div class="markdown-body">
+        {{ post.content | safe }}
+    </div>
 
 {#    {% block comments %}#}
 {#        <!-- Comments Form -->#}

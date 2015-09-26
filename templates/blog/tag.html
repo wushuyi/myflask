@@ -47,7 +47,7 @@
         {# <p><span class="glyphicon glyphicon-time"></span> Posted on August 28, 2013 at 10:00 PM</p>#}
         <hr>
         <div class="markdown-body">
-            {{ post.content | safe }}
+            {{ post.pre_content | safe }}
         </div>
         <hr>
         <a class="btn btn-primary" href="{{ url_for('.posts', query_path= post.uri_path) }}">阅读文章 <span
